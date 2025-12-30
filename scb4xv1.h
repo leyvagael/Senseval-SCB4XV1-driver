@@ -46,14 +46,14 @@ void scb4xv1_init(I2C_HandleTypeDef *hi2c, TIM_HandleTypeDef *htim);
 uint8_t getSerialNumber(void);
 void SHT4X_SoftReset(void);
 
-uint8_t readRaw_HighPrecision(void);
-uint8_t readRaw_MediumPrecision(void);
-uint8_t readRaw_LowPrecision(void);
+uint8_t readRaw_HighPrecision(uint16_t *dataArray);
+uint8_t readRaw_MediumPrecision(uint16_t *dataArray);
+uint8_t readRaw_LowPrecision(uint16_t *dataArray);
 
-uint8_t read_HighPrecision(void);
-uint8_t read_MediumPrecision(void);
-uint8_t read_LowPrecision(void);
+uint8_t read_HighPrecision(float *dataArray);
+uint8_t read_MediumPrecision(float *dataArray);
+uint8_t read_LowPrecision(float *dataArray);
 
-void useHeater(float* readings, uint8_t power, uint8_t duration);
+void useHeater(float *readings, uint8_t power, uint8_t duration);
 
 #endif /* INC_SCB4XV1_H_ */
