@@ -38,8 +38,20 @@
 #define HEATER_20mW_1s_cmd			0x1E
 #define HEATER_20mW_100ms_cmd			0x15
 
-/* Sensirion INIT function */
+/* SHT4X typedef enums for using the heater */
 
+typedef enum {
+	Heater_20mW,
+	Heater_110mW,
+	Heater_200mW
+} SHT4X_HeatPower_t;
+
+typedef enum {
+	Heater_1s = 1000,
+	Heater_100ms = 100
+} SHT4X_HeatDuration_t;
+
+/* Sensirion INIT function */
 void scb4xv1_init(I2C_HandleTypeDef *hi2c, TIM_HandleTypeDef *htim);
 
 /* Main SHT4X functions */
@@ -54,6 +66,6 @@ uint8_t read_HighPrecision(float *dataArray);
 uint8_t read_MediumPrecision(float *dataArray);
 uint8_t read_LowPrecision(float *dataArray);
 
-void useHeater(float *readings, uint8_t power, uint8_t duration);
+uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t duration);
 
 #endif /* INC_SCB4XV1_H_ */
