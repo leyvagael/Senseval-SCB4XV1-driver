@@ -16,7 +16,7 @@ void scb4xv1_init(I2C_HandleTypeDef *hi2c, TIM_HandleTypeDef *htim){
 	htim_scb4xv1 = htim;
 }
 
-void wait_ms(uint8_t ms){
+void wait_ms(uint16_t ms){
 	/*
 	 * This function IS cpu blocking. Consider using a non-blocking alternative
 	 * when using RTOS.
@@ -39,11 +39,15 @@ uint8_t readRaw_HighPrecision(uint16_t *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
 
-	uint8_t tempDataValid = check_CRC(&dataTemp, 2, temp_CRC);
+	uint8_t tempDataValid = check_CRC(dataTemp, 2, temp_CRC);
 	uint8_t rhDataValid = check_CRC(dataRH, 2, rh_CRC);
 
 	if (tempDataValid && rhDataValid){
@@ -69,12 +73,16 @@ uint8_t readRaw_MediumPrecision(uint16_t *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
 
-	uint8_t tempDataValid = check_CRC(&dataTemp, 2, temp_CRC);
-	uint8_t rhDataValid = check_CRC(&dataRH, 2, rh_CRC);
+	uint8_t tempDataValid = check_CRC(dataTemp, 2, temp_CRC);
+	uint8_t rhDataValid = check_CRC(dataRH, 2, rh_CRC);
 
 	if (tempDataValid && rhDataValid){
 		uint16_t rawTemp = data[0] * 256 + data[1];
@@ -98,6 +106,10 @@ uint8_t readRaw_LowPrecision(uint16_t *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
@@ -127,12 +139,16 @@ uint8_t read_HighPrecision(float *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
 
-	uint8_t tempDataValid = check_CRC(&dataTemp, 2, temp_CRC);
-	uint8_t rhDataValid = check_CRC(&dataRH, 2, rh_CRC);
+	uint8_t tempDataValid = check_CRC(dataTemp, 2, temp_CRC);
+	uint8_t rhDataValid = check_CRC(dataRH, 2, rh_CRC);
 
 	if (tempDataValid && rhDataValid){
 		uint16_t rawTemp = data[0] * 256 + data[1];
@@ -162,6 +178,10 @@ uint8_t read_MediumPrecision(float *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
@@ -198,12 +218,16 @@ uint8_t read_LowPrecision(float *dataArray){
 
 	uint8_t dataTemp[2];
 	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 	
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
 
-	uint8_t tempDataValid = check_CRC(&dataTemp, 2, temp_CRC);
-	uint8_t rhDataValid = check_CRC(&dataRH, 2, rh_CRC);
+	uint8_t tempDataValid = check_CRC(dataTemp, 2, temp_CRC);
+	uint8_t rhDataValid = check_CRC(dataRH, 2, rh_CRC);
 	
 	if (tempDataValid && rhDataValid){
 		uint16_t rawTemp = data[0] * 256 + data[1];
@@ -233,37 +257,45 @@ uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t
 	* Datasheet of the sensor specifies that the use of the heater MUST be less than 10% of the total lifetime of the sensor (MAX Duty Cycle = 10).
 	* The function stores the values of the temperature and RH in the parameter 'data'.
 	* Still missing to implement CRC
-	*/ 
+	*/
+
+	uint8_t cmd = 0;
+
 	switch(power){ 
 	case 0: //20mW 
 		if (duration == Heater_1s){ 
-			uint8_t cmd = HEATER_20mW_1s_cmd;
+			cmd = HEATER_20mW_1s_cmd;
 		}
 		else if(duration == Heater_100ms){ 
-			uint8_t cmd = HEATER_20mW_100ms_cmd;
+			cmd = HEATER_20mW_100ms_cmd;
 		}  
 		break;
 
 	case 1: //110 mW 
 		if (duration == Heater_1s){ 
-			uint8_t cmd = HEATER_110mW_1s_cmd;
+			cmd = HEATER_110mW_1s_cmd;
 		}
 		else if(duration == Heater_100ms){ 
-			uint8_t cmd = HEATER_110mW_100ms_cmd;
+			cmd = HEATER_110mW_100ms_cmd;
 		}
 		break; 
  
 	case 2: //200mW 
 		if (duration == Heater_1s){ 
-			uint8_t cmd = HEATER_200mW_1s_cmd;
+			cmd = HEATER_200mW_1s_cmd;
 		}
 		else if(duration == Heater_100ms){ 
-			uint8_t cmd = HEATER_200mW_100ms_cmd;
+			cmd = HEATER_200mW_100ms_cmd;
 		}
 		break;  
 	default: 
 		break; 
 	}
+	
+	if (cmd == 0){
+		return 0;
+	}
+	
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000); 
 	wait_ms(duration + 9); 
 		
@@ -271,13 +303,17 @@ uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t
 	HAL_I2C_Master_Receive (hi2c_scb4xv1, SHT4X_Address, data, 6, 1000);
 
 	uint8_t dataTemp[2];
-	uint8_t dataRH[2]; 
+	uint8_t dataRH[2];
+	dataTemp[0] = data[0];
+	dataTemp[1] = data[1];
+	dataRH[0] = data[3];
+	dataRH[1] = data[4];
 		
 	uint8_t temp_CRC = data[2];
 	uint8_t rh_CRC = data[5];
 	
-	uint8_t tempDataValid = check_CRC(&dataTemp, 2, temp_CRC);
-	uint8_t rhDataValid = check_CRC(&dataRH, 2, rh_CRC);
+	uint8_t tempDataValid = check_CRC(dataTemp, 2, temp_CRC);
+	uint8_t rhDataValid = check_CRC(dataRH, 2, rh_CRC);
 
 	if (tempDataValid && rhDataValid){
 		uint16_t rawTemp = data[0] * 256 + data[1]; 
@@ -310,10 +346,10 @@ uint8_t getSerialNumber(uint32_t *var){
 	low_data[1] = data[4];
 	uint8_t low_CRC = data[5];
 
-	uint8_t highDataValid = check_CRC(&high_data, 2, high_CRC);
-	uint8_t lowDataValid = check_CRC(&low_data, 2, low_CRC);
+	uint8_t highDataValid = check_CRC(high_data, 2, high_CRC);
+	uint8_t lowDataValid = check_CRC(low_data, 2, low_CRC);
 
-	if (!(highDataValid && lowDataValid)){
+	if (highDataValid && lowDataValid){
 		*(var) = (data[0] << 24) +  (data[1] << 16) + (data[3] << 8) + (data[4]);
 		return 1;
 	}

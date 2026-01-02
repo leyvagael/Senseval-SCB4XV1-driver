@@ -54,7 +54,7 @@ typedef enum {
 void scb4xv1_init(I2C_HandleTypeDef *hi2c, TIM_HandleTypeDef *htim);
 
 /* Main SHT4X functions */
-uint8_t getSerialNumber(void);
+uint8_t getSerialNumber(uint32_t *var);
 void SHT4X_SoftReset(void);
 
 uint8_t readRaw_HighPrecision(uint16_t *dataArray);
