@@ -39,7 +39,6 @@
 #define HEATER_20mW_100ms_cmd			0x15
 
 /* SHT4X typedef enums for using the heater */
-
 typedef enum {
 	Heater_20mW,
 	Heater_110mW,
