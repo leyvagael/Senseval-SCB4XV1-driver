@@ -29,7 +29,7 @@ void wait_ms(uint16_t ms){
 }
 
 /* SHT4X functions*/
-uint8_t readRaw_HighPrecision(uint16_t *dataArray){
+uint8_t Temp_RH_readRaw_HighPrecision(uint16_t *dataArray){
 	uint8_t cmd = MEASURE_HIGH_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(9);
@@ -63,7 +63,7 @@ uint8_t readRaw_HighPrecision(uint16_t *dataArray){
 	}
 }
 
-uint8_t readRaw_MediumPrecision(uint16_t *dataArray){
+uint8_t Temp_RH_readRaw_MediumPrecision(uint16_t *dataArray){
 	uint8_t cmd = MEASURE_MEDIUM_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(5);
@@ -96,7 +96,7 @@ uint8_t readRaw_MediumPrecision(uint16_t *dataArray){
 	}
 }
 
-uint8_t readRaw_LowPrecision(uint16_t *dataArray){
+uint8_t Temp_RH_readRaw_LowPrecision(uint16_t *dataArray){
 	uint8_t cmd = MEASURE_LOW_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(2);
@@ -129,7 +129,7 @@ uint8_t readRaw_LowPrecision(uint16_t *dataArray){
 	}
 }
 
-uint8_t read_HighPrecision(float *dataArray){
+uint8_t Temp_RH_read_HighPrecision(float *dataArray){
 	uint8_t cmd = MEASURE_HIGH_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(9);
@@ -168,7 +168,7 @@ uint8_t read_HighPrecision(float *dataArray){
 	}
 }
 
-uint8_t read_MediumPrecision(float *dataArray){
+uint8_t Temp_RH_read_MediumPrecision(float *dataArray){
 	uint8_t cmd = MEASURE_MEDIUM_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(5);
@@ -208,7 +208,7 @@ uint8_t read_MediumPrecision(float *dataArray){
 	}
 }
 
-uint8_t read_LowPrecision(float *dataArray){
+uint8_t Temp_RH_read_LowPrecision(float *dataArray){
 	uint8_t cmd = MEASURE_LOW_PRECISION_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	wait_ms(2);
@@ -247,7 +247,7 @@ uint8_t read_LowPrecision(float *dataArray){
 	}
 }
 
-uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t duration){ 
+uint8_t SHT4X_useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t duration){ 
 	/* 
 	* This function uses the heater provided by the sensor. The workflow is explained below: 
 	* 1. The heater is enabled, and the timer starts its count-down. 
@@ -329,7 +329,7 @@ uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t
 	}
 }
 
-uint8_t getSerialNumber(uint32_t *var){
+uint8_t SHT4X_getSerialNumber(uint32_t *var){
 	uint8_t cmd = READ_SERIAL_NUMBER_cmd;
 	HAL_I2C_Master_Transmit(hi2c_scb4xv1, SHT4X_Address, &cmd, 1, 1000);
 	uint8_t data[6]; 

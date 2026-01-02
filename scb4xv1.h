@@ -23,7 +23,7 @@
 #include "main.h"
 
 /* Device I2C Addresses */
-#define SHT4X_Address					0x44<<1
+#define SHT4X_Address				0x44<<1
 
 /* SHT4X command defines */
 #define MEASURE_HIGH_PRECISION_cmd		0xFD
@@ -54,17 +54,17 @@ typedef enum {
 void scb4xv1_init(I2C_HandleTypeDef *hi2c, TIM_HandleTypeDef *htim);
 
 /* Main SHT4X functions */
-uint8_t getSerialNumber(uint32_t *var);
+uint8_t SHT4X_getSerialNumber(uint32_t *var);
 void SHT4X_SoftReset(void);
 
-uint8_t readRaw_HighPrecision(uint16_t *dataArray);
-uint8_t readRaw_MediumPrecision(uint16_t *dataArray);
-uint8_t readRaw_LowPrecision(uint16_t *dataArray);
+uint8_t Temp_RH_readRaw_HighPrecision(uint16_t *dataArray);
+uint8_t Temp_RH_readRaw_MediumPrecision(uint16_t *dataArray);
+uint8_t Temp_RH_readRaw_LowPrecision(uint16_t *dataArray);
 
-uint8_t read_HighPrecision(float *dataArray);
-uint8_t read_MediumPrecision(float *dataArray);
-uint8_t read_LowPrecision(float *dataArray);
+uint8_t Temp_RH_read_HighPrecision(float *dataArray);
+uint8_t Temp_RH_read_MediumPrecision(float *dataArray);
+uint8_t Temp_RH_read_LowPrecision(float *dataArray);
 
-uint8_t useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t duration);
+uint8_t SHT4X_useHeater(float *readings, SHT4X_HeatPower_t power, SHT4X_HeatDuration_t duration);
 
 #endif /* INC_SCB4XV1_H_ */
